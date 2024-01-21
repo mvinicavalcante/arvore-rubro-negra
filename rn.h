@@ -23,7 +23,8 @@ int eh_filho_esquerdo(arvore elemento);
 arvore irmao(arvore elemento);
 arvore tio(arvore elemento);
 
-rotacao_simples_direita(arvore *raiz, arvore pivo);
+void rotacao_simples_direita(arvore *raiz, arvore pivo);
+void rotacao_simples_esquerda(arvore *raiz, arvore pivo);
 
 void ajustar(arvore *raiz, arvore elemento);
 

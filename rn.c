@@ -73,6 +73,18 @@ void rotacao_simples_direita(arvore *raiz, arvore pivo) {
     }
 }
 
+void rotacao_simples_esquerda(arvore *raiz, arvore pivo) {
+    arvore u, t1;
+
+    u = pivo->dir;
+    t1 = u->esq;
+
+    int posicao_pivo_esq = eh_filho_esquerdo(pivo);
+
+    pivo->dir = t1;
+
+}
+
 void ajustar(arvore *raiz, arvore elemento) {
     while(cor(elemento->pai) == VERMELHO && cor(elemento) == VERMELHO) {
         //caso 1: tio vermelho
