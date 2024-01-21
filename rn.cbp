@@ -22,6 +22,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="rn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rn.cbp" />
+		<Unit filename="rn.h" />
+		<Unit filename="rn.layout" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
