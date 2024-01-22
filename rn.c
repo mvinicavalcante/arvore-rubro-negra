@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "rb.h"
+#include "rn.h"
 
 arvore no_null;
 
@@ -14,12 +14,38 @@ void inicializar(arvore *raiz) {
     no_null->pai = NULL;
 }
 
+void pre_order(arvore raiz) {
+    if(raiz != NULL) {
+        printf("[%d]", raiz->dado);
+        pre_order(raiz->esq);
+        pre_order(raiz->dir);
+    }
+}
+
+void in_order(arvore raiz) {
+    if(raiz != NULL) {
+        in_order(raiz->esq);
+        printf("[%d]", raiz->dado);
+        in_order(raiz->dir);
+    }
+}
+
+void pos_order(arvore raiz) {
+    if(raiz != NULL) {
+        pos_order(raiz->esq);
+        pos_order(raiz->dir);
+        printf("[%d]", raiz->dado);
+    }
+}
+
 enum cor cor(arvore elemento) {
 	enum cor c;
-	if(elemento==NULL)
-		return PRETO;
-	else
-		return elemento->cor;
+	if(elemento == NULL) {
+        return PRETO;
+	}
+	else {
+        return elemento->cor;
+	}
 	return c;
 }
 
@@ -83,13 +109,32 @@ void rotacao_simples_esquerda(arvore *raiz, arvore pivo) {
 
     pivo->dir = t1;
 
+    if(t1 != NULL) {
+        t1->pai = pivo;
+
+        //fazendo pivo virar filho de u
+        u->esq = pivo;
+        u->pai = pivo->pai;
+        pivo->pai = u;
+
+        if(eh_raiz(u)) {
+            *raiz = u;
+        } else {
+            if(posicao_pivo_esq) {
+                u->pai->esq = u;
+            } else {
+                u->pai->dir = u;
+            }
+        }
+    }
+
 }
 
 void ajustar(arvore *raiz, arvore elemento) {
     while(cor(elemento->pai) == VERMELHO && cor(elemento) == VERMELHO) {
         //caso 1: tio vermelho
-        if(cor(tio(elemento)) == VERMELHO) {
-            tio(elemento->cor) = PRETO;
+        if(tio(elemento)->cor == VERMELHO) {
+            tio(elemento)->cor = PRETO;
             elemento->cor = PRETO;
             elemento->pai->pai->cor = VERMELHO;
             elemento = elemento->pai->pai;
@@ -104,10 +149,21 @@ void ajustar(arvore *raiz, arvore elemento) {
             elemento->pai->dir->cor = VERMELHO;
             continue;
         }
+        if(!eh_filho_esquerdo(elemento) && !eh_filho_esquerdo(elemento->pai)) {
+            rotacao_simples_esquerda(raiz, elemento->pai->pai);
+            elemento->pai->cor = PRETO;
+            elemento->pai->esq->cor = VERMELHO; //tio vermelho
+            continue;
+        }
+        //if() {}
+
     }
+
+    (*raiz)->cor = PRETO;
+
 }
 
-arvore adicionar(int valor, arvore *raiz) {
+void adicionar(int valor, arvore *raiz) {
     arvore posicao, pai, novo;
 
     posicao = *raiz;
@@ -143,5 +199,9 @@ arvore adicionar(int valor, arvore *raiz) {
 	}
 
 	ajustar(raiz, novo);
+}
+
+void remover(int valor, arvore *raiz) {
+    printf("remove function");
 }
 

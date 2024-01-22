@@ -28,6 +28,9 @@
 		<Unit filename="rn.cbp" />
 		<Unit filename="rn.h" />
 		<Unit filename="rn.layout" />
+		<Unit filename="teste_rn.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

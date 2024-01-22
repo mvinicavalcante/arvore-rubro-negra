@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "rb.h"
+#include "rn.h"
 
 int main(int argc, char * argv[]) {
 	arvore a;
@@ -8,42 +8,30 @@ int main(int argc, char * argv[]) {
 	inicializar(&a);
 
 	while(1) {
+        printf("Selecione uma opcao: \n1- Adicionar \n2 - Pre-order \n3 - In-order \n4- Pos-order \n5- Remover \n");
 		scanf("%d", &opcao);
 
 		switch(opcao) {
 				int valor;
 				case 1:
-						printf("%d\n", altura(a));
-						break;
-				case 2:
 						scanf("%d", &valor);
 						adicionar(valor, &a);
 						break;
-				case 3:
-						printf("%d\n", maior_elemento(a));
-						break;
-				case 4:
-						printf("%d\n", menor_elemento(a));
-						break;
-				case 5:
+				case 2:
 						pre_order(a);
 						printf("\n");
 						break;
-				case 6:
+				case 3:
 						in_order(a);
 						printf("\n");
 						break;
-				case 7:
+				case 4:
 						pos_order(a);
 						printf("\n");
 						break;
-				case 8:
+				case 5:
 						scanf("%d", &valor);
 						remover(valor, &a);
-						break;
-				case 9:
-						imprimir(a);
-						printf("\n");
 						break;
 
 				case 99:
