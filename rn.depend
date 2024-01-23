@@ -1,13 +1,14 @@
 # depslib dependency file v1.0
-1705885059 source:c:\users\vinicius\onedrive\Área de trabalho\3o período\aedii\rn\rn\teste_rn.c
+1705980021 source:c:\users\vinicius\onedrive\Área de trabalho\3o período\aedii\rn\rn\teste_rn.c
 	<stdio.h>
 	<stdlib.h>
 	"rn.h"
 
 1705884765 c:\users\vinicius\onedrive\Área de trabalho\3o período\aedii\rn\rn\rn.h
 
-1705979438 source:c:\users\vinicius\onedrive\Área de trabalho\3o período\aedii\rn\rn\rn.c
+1705980196 source:c:\users\vinicius\onedrive\Área de trabalho\3o período\aedii\rn\rn\rn.c
 	<stdio.h>
 	<stdlib.h>
+	<windows.h>
 	"rn.h"
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "rn.h"
 
 arvore no_null;
@@ -16,7 +17,7 @@ void inicializar(arvore *raiz) {
 
 void pre_order(arvore raiz) {
     if(raiz != NULL) {
-        printf("[%d]", raiz->dado);
+        imprimir_elemento(raiz);
         pre_order(raiz->esq);
         pre_order(raiz->dir);
     }
@@ -201,5 +202,40 @@ void adicionar(int valor, arvore *raiz) {
 
 void remover(int valor, arvore *raiz) {
     printf("remove function");
+}
+
+void imprimir_elemento(arvore raiz) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    switch(raiz->cor) {
+        case PRETO:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE); // Preto
+            printf("[%d]", raiz->dado);
+            break;
+        case VERMELHO:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED); // Vermelho
+            printf("[%d]", raiz->dado);
+            break;
+        case DUPLO_PRETO:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN); // Verde
+            printf("[%d]", raiz->dado);
+            break;
+    }
+
+    SetConsoleTextAttribute(hConsole, 7); // Retorna à cor padrão
+}
+
+
+void remover(int valor, arvore *raiz) {
+    arvore posicao;
+    posicao = *raiz;
+
+    while(posicao != NULL) {
+        if(valor == posicao->dado) {
+            if(posicao->esq != NULL && posicao->dir != NULL) {
+
+            }
+        }
+    }
 }
 
