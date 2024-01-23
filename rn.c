@@ -155,7 +155,27 @@ void ajustar(arvore *raiz, arvore elemento) {
             elemento->pai->esq->cor = VERMELHO; //tio vermelho
             continue;
         }
-        //if() {}
+        //rotação dupla esquerda
+        if(eh_filho_esquerdo(elemento) && !eh_filho_esquerdo(elemento->pai)) {
+            rotacao_simples_direita(raiz, elemento->pai);
+            elemento->pai->cor = PRETO;
+            elemento->pai->dir->cor = VERMELHO;
+
+            rotacao_simples_esquerda(raiz, elemento->pai->pai);
+            elemento->pai->cor = PRETO;
+            elemento->pai->esq->cor = VERMELHO;
+            continue;
+        }
+        if(!eh_filho_esquerdo(elemento) && eh_filho_esquerdo(elemento->pai)) {
+            rotacao_simples_esquerda(raiz, elemento->pai);
+            elemento->pai->cor = PRETO;
+            elemento->pai->esq->cor = VERMELHO;
+
+            rotacao_simples_direita(raiz, elemento->pai->pai);
+            elemento->pai->cor = PRETO;
+            elemento->pai->dir->cor = VERMELHO;
+            continue;
+        }
 
     }
 
