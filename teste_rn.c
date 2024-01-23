@@ -33,7 +33,6 @@ int main(int argc, char * argv[]) {
 						scanf("%d", &valor);
 						remover(valor, &a);
 						break;
-
 				case 99:
 						exit(0);
 		}

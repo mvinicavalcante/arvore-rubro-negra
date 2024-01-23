@@ -69,73 +69,59 @@ arvore tio(arvore elemento) {
 }
 
 void rotacao_simples_direita(arvore *raiz, arvore pivo) {
-    arvore u, t1;
-
+    arvore u, t2;
     u = pivo->esq;
-    t1 = u->dir;
+    t2 = u->dir;
 
-    //verificar se é filho esquerdo ou direito para para ligar a raiz resultante com o pai
     int posicao_pivo_esq = eh_filho_esquerdo(pivo);
-    pivo->esq = t1;
 
-    if(t1 != NULL) {
-        t1->pai = pivo;
+    u->dir = pivo;
+    u->pai = pivo->pai;
+    pivo->pai = u;
+    pivo->esq = t2;
+    if(t2 != NULL)
+        t2->pai = pivo;
 
-        u->dir = pivo;
-        u->pai = pivo->pai;
-        pivo->pai = u;
-
-        //Se é raiz, colocar u como raiz;
-        if(eh_raiz(u)) {
-            *raiz = u;
-        } else {
-        //Caso contrário (se existir) é preciso ligar o restante da árvore a esta sub-árvore, resultante da rotação
-            if(posicao_pivo_esq) {
-                u->pai->esq = u;
-            } else {
-                u->pai->dir = u;
-            }
-        }
+    if(eh_raiz(u))
+        *raiz = u;
+    else {
+        if(posicao_pivo_esq)
+            u->pai->esq = u;
+        else
+            u->pai->dir = u;
     }
 }
 
 void rotacao_simples_esquerda(arvore *raiz, arvore pivo) {
-    arvore u, t1;
-
+    arvore u, t2;
     u = pivo->dir;
-    t1 = u->esq;
+    t2 = u->esq;
 
     int posicao_pivo_esq = eh_filho_esquerdo(pivo);
 
-    pivo->dir = t1;
+    u->esq = pivo;
+    u->pai = pivo->pai;
+    pivo->pai = u;
+    pivo->dir = t2;
+    if(t2 != NULL)
+        t2->pai = pivo;
 
-    if(t1 != NULL) {
-        t1->pai = pivo;
-
-        //fazendo pivo virar filho de u
-        u->esq = pivo;
-        u->pai = pivo->pai;
-        pivo->pai = u;
-
-        if(eh_raiz(u)) {
-            *raiz = u;
-        } else {
-            if(posicao_pivo_esq) {
-                u->pai->esq = u;
-            } else {
-                u->pai->dir = u;
-            }
-        }
+    if(eh_raiz(u))
+        *raiz = u;
+    else {
+        if(posicao_pivo_esq)
+            u->pai->esq = u;
+        else
+            u->pai->dir = u;
     }
-
 }
 
 void ajustar(arvore *raiz, arvore elemento) {
     while(cor(elemento->pai) == VERMELHO && cor(elemento) == VERMELHO) {
         //caso 1: tio vermelho
-        if(tio(elemento)->cor == VERMELHO) {
+        if(cor(tio(elemento)) == VERMELHO) {
             tio(elemento)->cor = PRETO;
-            elemento->cor = PRETO;
+            elemento->pai->cor = PRETO;
             elemento->pai->pai->cor = VERMELHO;
             elemento = elemento->pai->pai;
             //Continua a verificação a partir do avô, que mudou para vermelho e pode ter
@@ -158,29 +144,21 @@ void ajustar(arvore *raiz, arvore elemento) {
         //rotação dupla esquerda
         if(eh_filho_esquerdo(elemento) && !eh_filho_esquerdo(elemento->pai)) {
             rotacao_simples_direita(raiz, elemento->pai);
-            elemento->pai->cor = PRETO;
-            elemento->pai->dir->cor = VERMELHO;
-
-            rotacao_simples_esquerda(raiz, elemento->pai->pai);
-            elemento->pai->cor = PRETO;
-            elemento->pai->esq->cor = VERMELHO;
+            rotacao_simples_esquerda(raiz, elemento->pai);
+            elemento->cor = PRETO;
+            elemento->esq->cor = VERMELHO;
             continue;
         }
         if(!eh_filho_esquerdo(elemento) && eh_filho_esquerdo(elemento->pai)) {
             rotacao_simples_esquerda(raiz, elemento->pai);
-            elemento->pai->cor = PRETO;
-            elemento->pai->esq->cor = VERMELHO;
-
-            rotacao_simples_direita(raiz, elemento->pai->pai);
-            elemento->pai->cor = PRETO;
-            elemento->pai->dir->cor = VERMELHO;
+            rotacao_simples_direita(raiz, elemento->pai);
+            elemento->cor = PRETO;
+            elemento->dir->cor = VERMELHO;
             continue;
         }
 
     }
-
     (*raiz)->cor = PRETO;
-
 }
 
 void adicionar(int valor, arvore *raiz) {
