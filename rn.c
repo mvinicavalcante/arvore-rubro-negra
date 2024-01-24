@@ -325,6 +325,37 @@ void remover(int valor, arvore *raiz) {
     }
 }
 
+/*Realiza a correção da árvore após a remoção de um elemento preto que não possui filhos, ou seja, elimina o nó null o duplo-preto.*/
+void reajustar(arvore *raiz, arvore elemento) {
+    //caso 1: elemento é raiz
+    if(eh_raiz(elemento)) {
+		elemento->cor = PRETO;
+        if(elemento == no_null) {
+            *raiz = NULL;
+		}
+		return;
+	}
+
+	//caso 2
+	if(cor(elemento->pai) == PRETO &&
+        cor(irmao(elemento)) == VERMELHO &&
+        cor(irmao(elemento)->dir) == PRETO &&
+        cor(irmao(elemento)->esq) == PRETO) {
+            if(eh_filho_esquerdo(elemento))
+                rotacao_simples_esquerda(raiz, elemento->pai);
+            else
+                rotacao_simples_direita(raiz, elemento->pai);
+
+            elemento->pai->pai->cor = PRETO;
+            elemento->pai->cor = VERMELHO;
+
+            //Atenção à chamada recursiva do reajustar.
+            //O caso 2 não remove o duplo-preto
+            reajustar(raiz, elemento);
+            return;
+        }
+}
+
 void retira_duplo_preto(arvore *raiz, arvore elemento) {
 	if(elemento == no_null)
 		if(eh_filho_esquerdo(elemento))
