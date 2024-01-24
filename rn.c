@@ -225,6 +225,14 @@ void imprimir_elemento(arvore raiz) {
     SetConsoleTextAttribute(hConsole, 7); // Retorna à cor padrão
 }
 
+int maior_elemento(arvore raiz) {
+	if(raiz == NULL)
+        return -1;
+	if(raiz->dir == NULL)
+        return raiz->dado;
+	else
+        return maior_elemento(raiz->dir);
+}
 
 void remover(int valor, arvore *raiz) {
     arvore posicao;
@@ -233,9 +241,97 @@ void remover(int valor, arvore *raiz) {
     while(posicao != NULL) {
         if(valor == posicao->dado) {
             if(posicao->esq != NULL && posicao->dir != NULL) {
+                //caso tenha dois filhos, a posição atual será igual ao maior elemento da esquerda e, obviamente, será excluída a anterior
+                posicao->dado = maior_elemento(posicao->esq);
+                //manda remover o menor valor da esquerda
+                remover(posicao->dado, &(posicao->esq));
+                break;
+            }
 
+            //apenas filho direito
+            if(posicao->esq == NULL && posicao->dir != NULL) {
+                //O seu filho direito sobe para a posição do elemento  a ser removido e recebe a cor preta
+				posicao->dir->cor = PRETO;
+                posicao->dir->pai = posicao->pai;
+
+				if(eh_raiz(posicao)) {
+					*raiz = posicao->dir;
+				} else {
+					if(eh_filho_esquerdo(posicao)) {
+    					posicao->pai->esq = posicao->dir;
+					} else {
+						posicao->pai->dir = posicao->dir;
+    				}
+				}
+                free(posicao);
+				break;
+			}
+			//Apenas um filho esquerdo
+			if(posicao->esq != NULL  && posicao->dir == NULL) {
+                posicao->esq->cor = PRETO;
+                posicao->esq->pai = posicao->pai;
+
+                if(eh_raiz(posicao)) {
+                    *raiz = posicao->esq;
+                } else {
+                    if(eh_filho_esquerdo(posicao)) {
+                        posicao->pai->esq = posicao->esq;
+                    } else {
+                        posicao->pai->dir = posicao->esq;
+                    }
+                }
+                free(posicao);
+				break;
+			}
+			if(posicao->esq == NULL && posicao->dir == NULL) {
+				//Remover raiz sem filhos
+				if(eh_raiz(posicao)) {
+					*raiz = NULL;
+                    free(posicao);
+					break;
+                }
+
+                //Remover elemento que não possui filhos e não é raiz
+				//Se for vermelho, apenas remove atualizando o ponteiro
+				//correspondente do pai
+                if(posicao->cor == VERMELHO) {
+					if(eh_filho_esquerdo(posicao))
+						posicao->pai->esq = NULL;
+					else
+						posicao->pai->dir = NULL;
+                    free(posicao);
+					break;
+				} else {
+                    //Se o elemento for preto, substitui pelo duplo preto e depois ajusta a árvore
+                    no_null->cor = DUPLO_PRETO;
+                    no_null->pai = posicao->pai;
+
+                    if(eh_filho_esquerdo(posicao))
+                        posicao->pai->esq = no_null;
+                    else
+                        posicao->pai->dir = no_null;
+
+                    free(posicao);
+                    reajustar(raiz, no_null);
+                    break;
+				}
+            }
+            if(valor > posicao->dado) {
+                posicao = posicao->dir;
+            } else {
+                posicao = posicao->esq;
             }
         }
     }
+}
+
+void retira_duplo_preto(arvore *raiz, arvore elemento) {
+	if(elemento == no_null)
+		if(eh_filho_esquerdo(elemento))
+			elemento->pai->esq = NULL;
+		else
+			elemento->pai->dir = NULL;
+    else
+		elemento->cor = PRETO;
 }
 
