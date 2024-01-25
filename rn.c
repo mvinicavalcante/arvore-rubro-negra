@@ -360,7 +360,48 @@ void reajustar(arvore *raiz, arvore elemento) {
     }
 
     //caso 3
-    if() {}
+    if(cor(elemento->pai) == PRETO &&
+        cor(irmao(elemento)) == PRETO &&
+        cor(irmao(elemento)->dir) == PRETO &&
+        cor(irmao(elemento)->esq) == PRETO) {
+
+            irmao(elemento)->cor = VERMELHO;
+            elemento->pai->cor = DUPLO_PRETO;
+            retira_duplo_preto(raiz, elemento);
+
+            reajustar(raiz, elemento->pai);
+            return;
+
+        }
+
+    //caso 4
+    if(cor(elemento->pai) == VERMELHO && cor(irmao(elemento)) == PRETO) {
+        retira_duplo_preto(raiz, elemento);
+        elemento->pai->cor = PRETO;
+        irmao(elemento)->cor = VERMELHO;
+        return;
+    }
+
+    //caso 5a
+	if() {
+			return;
+	}
+
+	//caso 5b
+	if() {
+				return;
+	}
+
+	//caso 6a
+	if() {
+				return;
+	}
+
+	//caso 6b
+	if() {
+				return;
+	}
+
 }
 
 void retira_duplo_preto(arvore *raiz, arvore elemento) {
