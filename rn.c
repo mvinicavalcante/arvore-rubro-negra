@@ -70,18 +70,22 @@ arvore tio(arvore elemento) {
 }
 
 void rotacao_simples_direita(arvore *raiz, arvore pivo) {
-    arvore u, t2;
+    arvore u, t1;
     u = pivo->esq;
-    t2 = u->dir;
+    t1 = u->dir;
 
     int posicao_pivo_esq = eh_filho_esquerdo(pivo);
 
+    //atualização dos ponteiros
+    pivo->esq = t1;
+
+    if(t1 != NULL)
+        t1->pai = pivo;
+
     u->dir = pivo;
+
     u->pai = pivo->pai;
     pivo->pai = u;
-    pivo->esq = t2;
-    if(t2 != NULL)
-        t2->pai = pivo;
 
     if(eh_raiz(u))
         *raiz = u;
@@ -94,18 +98,18 @@ void rotacao_simples_direita(arvore *raiz, arvore pivo) {
 }
 
 void rotacao_simples_esquerda(arvore *raiz, arvore pivo) {
-    arvore u, t2;
+    arvore u, t1;
     u = pivo->dir;
-    t2 = u->esq;
+    t1 = u->esq;
 
     int posicao_pivo_esq = eh_filho_esquerdo(pivo);
 
     u->esq = pivo;
     u->pai = pivo->pai;
     pivo->pai = u;
-    pivo->dir = t2;
-    if(t2 != NULL)
-        t2->pai = pivo;
+    pivo->dir = t1;
+    if(t1 != NULL)
+        t1->pai = pivo;
 
     if(eh_raiz(u))
         *raiz = u;
@@ -353,7 +357,10 @@ void reajustar(arvore *raiz, arvore elemento) {
             //O caso 2 não remove o duplo-preto
             reajustar(raiz, elemento);
             return;
-        }
+    }
+
+    //caso 3
+    if() {}
 }
 
 void retira_duplo_preto(arvore *raiz, arvore elemento) {
