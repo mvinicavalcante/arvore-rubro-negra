@@ -204,10 +204,6 @@ void adicionar(int valor, arvore *raiz) {
 	ajustar(raiz, novo);
 }
 
-void remover(int valor, arvore *raiz) {
-    printf("remove function");
-}
-
 void imprimir_elemento(arvore raiz) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -375,7 +371,10 @@ void reajustar(arvore *raiz, arvore elemento) {
         }
 
     //caso 4
-    if(cor(elemento->pai) == VERMELHO && cor(irmao(elemento)) == PRETO) {
+    if(cor(elemento->pai) == VERMELHO &&
+        cor(irmao(elemento)) == PRETO &&
+        cor(irmao(elemento)->dir) == PRETO &&
+        cor(irmao(elemento)->esq) == PRETO) {
         retira_duplo_preto(raiz, elemento);
         elemento->pai->cor = PRETO;
         irmao(elemento)->cor = VERMELHO;
@@ -383,23 +382,35 @@ void reajustar(arvore *raiz, arvore elemento) {
     }
 
     //caso 5a
-	if() {
-			return;
+	if(cor(irmao(elemento)) == PRETO && cor(irmao(elemento)->esq) == VERMELHO && cor(irmao(elemento)->esq) == PRETO )  {
+        rotacao_simples_esquerda(raiz, irmao(elemento));
+        irmao(elemento)->cor = PRETO;
+        irmao(elemento)->dir->cor = VERMELHO;
+        return;
 	}
 
 	//caso 5b
-	if() {
-				return;
+	if(cor(irmao(elemento)) == PRETO && cor(irmao(elemento)->dir) == VERMELHO && cor(irmao(elemento)->dir) == PRETO )  {
+        rotacao_simples_esquerda(raiz, irmao(elemento));
+        irmao(elemento)->cor = PRETO;
+        irmao(elemento)->esq->cor = VERMELHO;
+        return;
 	}
 
 	//caso 6a
-	if() {
-				return;
+	if(cor(irmao(elemento)) == PRETO && cor(irmao(elemento)->dir) == VERMELHO) {
+        retira_duplo_preto(raiz, elemento);
+        rotacao_simples_esquerda(raiz, irmao(elemento));
+        tio(elemento)->cor = PRETO;
+        return;
 	}
 
 	//caso 6b
-	if() {
-				return;
+	if(cor(irmao(elemento)) == PRETO && cor(irmao(elemento)->dir) == VERMELHO) {
+        retira_duplo_preto(raiz, elemento);
+        rotacao_simples_esquerda(raiz, irmao(elemento));
+        tio(elemento)->cor = PRETO;
+        return;
 	}
 
 }
