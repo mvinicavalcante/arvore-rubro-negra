@@ -20,6 +20,7 @@ void remover(int valor, arvore *raiz);
 enum cor cor(arvore elemento);
 int eh_raiz(arvore elemento);
 int eh_filho_esquerdo(arvore elemento);
+int eh_filho_dir(arvore elemento);
 arvore irmao(arvore elemento);
 arvore tio(arvore elemento);
 
